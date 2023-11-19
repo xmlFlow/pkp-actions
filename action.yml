@@ -71,7 +71,7 @@ runs:
         git submodule update --init --recursive
       shell: bash
       env:
-        $REPOSITORY: ${{github:repository}}
+        $REPOSITORY: ${{github.repository}}
 
     - name: Install composer dependencies
       run: |
