@@ -11,9 +11,9 @@ outputs:
     value: ${{ steps.random-number-generator.outputs.random-number }}
 strategy:
   fail-fast: false
-  matrix:
-    php-versions: [ '8.1','8.2' ]
-    dbs: [ 'pgsql']
+matrix:
+  php-versions: [ '8.1','8.2' ]
+  dbs: [ 'pgsql']
 env:
   DBUSERNAME: ojs-ci
   DBPASSWORD: ojs-ci
