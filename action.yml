@@ -1,0 +1,32 @@
+name: 'PKP Github actions'
+description: 'PKP CI/CD Pipeline'
+inputs:
+  application:
+    description: 'PKP application'
+    required: true
+    default: 'ojs'
+outputs:
+  random-number:
+    description: "Random number"
+    value: ${{ steps.random-number-generator.outputs.random-number }}
+env:
+  APPLICATION: ' ${{ inputs.application}}'
+  DBUSERNAME: ojs-ci
+  DBPASSWORD: ojs-ci
+  DBNAME: ojs-ci
+  DBHOST: 127.0.0.1
+  DATABASEDUMP: database.sql.gz
+  FILESDIR: files
+  FILESDUMP: files.tar.gz
+  CYPRESS_BASE_URL: http://127.0.0.1:8000
+  CYPRESS_DBNAME: ojs-ci
+  CYPRESS_DBUSERNAME: ojs-ci
+  CYPRESS_DBPASSWORD: ojs-ci
+  CYPRESS_DBHOST: 127.0.0.1
+  CYPRESS_FILESDIR: files
+
+runs:
+  using: "composite"
+  steps:
+    - run: echo Hello ${{ inputs.application}}.
+      shell: bash
