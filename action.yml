@@ -42,6 +42,7 @@ runs:
         sudo apt install postgresql postgresql-contrib
         sudo dpkg-reconfigure locales
         sudo sed -i -E 's\peer|scram-sha-256\trust\g' /etc/postgresql/14/main/pg_hba.conf
+      shell: bash
 
     - name: Install  mysql server
       if: ${{matrix.dbs == 'mysql'}}
@@ -49,12 +50,15 @@ runs:
         sudo apt install -q -y mysql-server mysql-client
         sudo service mysql start
         sudo mysqladmin -u root -p'root' password ''
+      shell: bash
 
     - name: Install mariadb  server
       if: ${{matrix.dbs == 'mariadb'}}
       uses: ankane/setup-mariadb@v1
       with:
         mariadb-version: "10.11"
+      shell: bash
+
     - name: Setup PHP, extensions and composer
       uses: shivammathur/setup-php@v2
       with:
@@ -69,10 +73,11 @@ runs:
         git clone -b '${{ github.head_ref || github.ref_name }}' https://github.com/${{github.repository}} ~/${{inputs.pkp-application}}
         cd ~/${{inputs.pkp-application}}
         git submodule update --init --recursive
+      shell: bash
 
     - name: Install composer dependencies
       run: |
         cd ~/${{inputs.pkp-application}}
         lib/pkp/tools/travis/install-composer-dependencies.sh
         npm i g -npm && npm i @vue/cli-service && npm i cypress && npm install && npm run build
-
+      shell: bash
