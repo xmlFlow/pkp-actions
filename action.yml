@@ -29,7 +29,7 @@ env:
   CYPRESS_DBHOST: 127.0.0.1
   CYPRESS_FILESDIR: files
 
-DBTYPE: ${{matrix.dbs == 'pgsql' && 'PostgreSQL' || 'MySQLi'}}
+#DBTYPE: ${{matrix.dbs == 'pgsql' && 'PostgreSQL' || 'MySQLi'}}
 #  CYPRESS_DBTYPE: ${{matrix.dbs=='pgsql' && 'PostgreSQL' || 'MySQLi'}}
 #  TEST: ${{matrix.dbs}}
 
@@ -57,7 +57,6 @@ runs:
       uses: ankane/setup-mariadb@v1
       with:
         mariadb-version: "10.11"
-      shell: bash
 
     - name: Setup PHP, extensions and composer
       uses: shivammathur/setup-php@v2
