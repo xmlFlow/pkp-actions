@@ -14,8 +14,7 @@ strategy:
   matrix:
     php-versions: [ '8.1','8.2' ]
     dbs: [ 'pgsql']
-    pkp-branch: [ '${{ github.head_ref || github.ref_name }}' ]
-env:
+    env:
   DBUSERNAME: ojs-ci
   DBPASSWORD: ojs-ci
   DBNAME: ojs-ci
@@ -32,7 +31,7 @@ env:
 #  DBTYPE: ${{matrix.dbs == 'pgsql' && 'PostgreSQL' || 'MySQLi'}}
 #  CYPRESS_DBTYPE: ${{matrix.dbs=='pgsql' && 'PostgreSQL' || 'MySQLi'}}
 #  TEST: ${{matrix.dbs}}
-
+#     pkp-branch: [ '${{ github.head_ref || github.ref_name }}' ]
 
 runs:
   using: "composite"
