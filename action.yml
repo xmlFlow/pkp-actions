@@ -36,7 +36,7 @@ DBTYPE: ${{matrix.dbs == 'pgsql' && 'PostgreSQL' || 'MySQLi'}}
 runs:
   using: "composite"
   steps:
-    - name: install postgres server
+    - name: Install postgres server
       if: ${{matrix.dbs == 'pgsql'}}
       run: |
         sudo apt install postgresql postgresql-contrib
