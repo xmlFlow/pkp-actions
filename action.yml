@@ -26,8 +26,8 @@ env:
 
 runs:
   using: "composite"
-  env:
-    APPLICATION: '${{inputs.application}}'
   steps:
     - run: echo Hello ${{ inputs.application}}.
       shell: bash
+      env:
+        APPLICATION: '${{inputs.application}}'
