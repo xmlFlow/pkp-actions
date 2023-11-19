@@ -10,7 +10,7 @@ outputs:
     description: "Random number"
     value: ${{ steps.random-number-generator.outputs.random-number }}
 env:
-  APPLICATION: ' ${{ inputs.application}}'
+  APPLICATION: '${{inputs.application}}'
   DBUSERNAME: ojs-ci
   DBPASSWORD: ojs-ci
   DBNAME: ojs-ci
