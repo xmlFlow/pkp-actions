@@ -10,7 +10,6 @@ outputs:
     description: "Random number"
     value: ${{ steps.random-number-generator.outputs.random-number }}
 env:
-  APPLICATION: '${{inputs.application}}'
   DBUSERNAME: ojs-ci
   DBPASSWORD: ojs-ci
   DBNAME: ojs-ci
@@ -30,3 +29,5 @@ runs:
   steps:
     - run: echo Hello ${{ inputs.application}}.
       shell: bash
+      env:
+        APPLICATION: '${{inputs.application}}'

@@ -7,6 +7,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - id: foo
-        uses: withanage/pkp-actions@v9
+        uses: withanage/pkp-actions@v10
         with:
           application: 'ojs'
