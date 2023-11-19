@@ -1,7 +1,7 @@
 name: 'PKP Github actions'
 description: 'PKP CI/CD Pipeline'
 inputs:
-  application:
+  pkp-application:
     description: 'PKP application'
     required: true
     default: 'ojs'
@@ -14,7 +14,7 @@ strategy:
   matrix:
     php-versions: [ '8.1','8.2' ]
     dbs: [ 'pgsql']
-    env:
+env:
   DBUSERNAME: ojs-ci
   DBPASSWORD: ojs-ci
   DBNAME: ojs-ci
