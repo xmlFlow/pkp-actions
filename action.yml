@@ -29,9 +29,9 @@ env:
   CYPRESS_DBPASSWORD: ojs-ci
   CYPRESS_DBHOST: 127.0.0.1
   CYPRESS_FILESDIR: files
-  DBTYPE: ${{matrix.dbs == 'pgsql' && 'PostgreSQL' || 'MySQLi'}}
-  CYPRESS_DBTYPE: ${{matrix.dbs=='pgsql' && 'PostgreSQL' || 'MySQLi'}}
-  TEST: ${{matrix.dbs}}
+#  DBTYPE: ${{matrix.dbs == 'pgsql' && 'PostgreSQL' || 'MySQLi'}}
+#  CYPRESS_DBTYPE: ${{matrix.dbs=='pgsql' && 'PostgreSQL' || 'MySQLi'}}
+#  TEST: ${{matrix.dbs}}
 
 
 runs:
