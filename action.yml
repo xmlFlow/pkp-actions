@@ -66,12 +66,11 @@ runs:
 
     - name: Install ${{inputs.pkp-application}}
       run: |
-        git clone -b ${{ github.head_ref || github.ref_name }} https://github.com/$REPOSITORY ~/${{inputs.pkp-application}}
+        git clone -b ${{ github.head_ref || github.ref_name }} https://github.com/${{inputs.pkp-repository}} ~/${{inputs.pkp-application}}
         cd ~/${{inputs.pkp-application}}
         git submodule update --init --recursive
       shell: bash
-      env:
-        REPOSITORY: withanage/ojs
+
 
     - name: Install composer dependencies
       run: |
