@@ -71,7 +71,6 @@ runs:
         git submodule update --init --recursive
       shell: bash
 
-
     - name: Install composer dependencies
       run: |
         cd ~/${{inputs.pkp-application}}
