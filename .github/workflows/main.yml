@@ -6,8 +6,8 @@ jobs:
     name: Validation
     steps:
       - uses: actions/checkout@v4
-      - id: foo
-        uses: xmlFlow/pkp-actions@v52
+      
+      - uses: xmlFlow/pkp-actions@v52
         with:
           pkp-application: 'ojs'
           pkp-repository: 'withanage'
