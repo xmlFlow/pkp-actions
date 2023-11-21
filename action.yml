@@ -77,53 +77,52 @@ runs:
         lib/pkp/tools/travis/install-composer-dependencies.sh
         npm i g -npm && npm i @vue/cli-service && npm i cypress && npm install && npm run build
       shell: bash
+    
     - name: Create additional directories
-        run: |
-          mkdir -p $HOME/bin
+      run: mkdir -p ~/${{inputs.pkp-application}}/bin
+      shell: bash
 
     - name: Install Validation tools
-      run: |
-        set -e
-        sudo pip install six
-        sudo pip install https://github.com/google/closure-linter/zipball/master
-        wget "https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/jslint4java/jslint4java-2.0.2-dist.zip"
-        unzip jslint4java-2.0.2-dist.zip
-        mv jslint4java-2.0.2/jslint4java-2.0.2.jar ~/bin/jslint4java.jar
+        run: |
+          set -e
+          sudo pip install six
+          sudo pip install https://github.com/google/closure-linter/zipball/master
+          wget "https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/jslint4java/jslint4java-2.0.2-dist.zip"
+          unzip jslint4java-2.0.2-dist.zip
+          mv jslint4java-2.0.2/jslint4java-2.0.2.jar ~/bin/jslint4java.jar
 
-    - name: Run XML validation
+      - name: Run XML validation
         run: |
           cd ~/${{inputs.pkp-application}}
           ./lib/pkp/tools/travis/validate-xml.sh
 
-      - name: Run Javascript/JSON validation
-        run: |
-          cd ~/${{inputs.pkp-application}}
-          ./lib/pkp/tools/buildjs.sh -n
-          ./lib/pkp/tools/travis/validate-json.sh
+    - name: Run Javascript/JSON validation
+      run: |
+        cd ~/${{inputs.pkp-application}}
+        ./lib/pkp/tools/buildjs.sh -n
+        ./lib/pkp/tools/travis/validate-json.sh
 
-      - name: Run linting
-        run: |
-          cd ~/${{inputs.pkp-application}}
-          npm run lint
+    - name: Run linting
+      run: |
+        cd ~/${{inputs.pkp-application}}
+        npm run lint
 
-      - name: Run Documentation validation
-        run: |
-          cd ~/${{inputs.pkp-application}}
-          # Look for help filenames referred to in templates and check that they all exist (in English)
-          ERRORS=0
-          for filename in `find . -name \*.tpl -exec sed -n -e "s/.*{help[^}]file=\"\([^\"#]\+\)[#\"].*/\1/p" "{}" ";"`; do
-           if [ ! -f docs/manual/en/$filename.md ]; then
-             echo "Help file \"$filename.md\" referred to in template does not exist!"
-             ERRORS=1
-            fi
-          done
-          if [ $ERRORS -ne 0 ]; then
-            exit -1
+    - name: Run Documentation validation
+      run: |
+        cd ~/${{inputs.pkp-application}}
+        # Look for help filenames referred to in templates and check that they all exist (in English)
+        ERRORS=0
+        for filename in `find . -name \*.tpl -exec sed -n -e "s/.*{help[^}]file=\"\([^\"#]\+\)[#\"].*/\1/p" "{}" ";"`; do
+          if [ ! -f docs/manual/en/$filename.md ]; then
+            echo "Help file \"$filename.md\" referred to in template does not exist!"
+            ERRORS=1
           fi
-          # Generate a quick report of the differences between the files listed in templates and the available files.
-          find . -name \*.tpl -exec sed -n -e "s/.*{help[^}]file=\"\([^\"]\+\)\".*/\1/p" "{}" ";" | sort | uniq > /tmp/template-help-references.txt
-          cat docs/manual/en/SUMMARY.md | sed -n -e "s/.*(\([^)]\+\))/\1/p" | sort | uniq > /tmp/help-files.txt
-          echo "Unreferenced help files:"
-          diff /tmp/template-help-references.txt /tmp/help-files.txt | grep -e "^>"
-
-    
+        done
+        if [ $ERRORS -ne 0 ]; then
+          exit -1
+        fi
+        # Generate a quick report of the differences between the files listed in templates and the available files.
+        find . -name \*.tpl -exec sed -n -e "s/.*{help[^}]file=\"\([^\"]\+\)\".*/\1/p" "{}" ";" | sort | uniq > /tmp/template-help-references.txt
+        cat docs/manual/en/SUMMARY.md | sed -n -e "s/.*(\([^)]\+\))/\1/p" | sort | uniq > /tmp/help-files.txt
+        echo "Unreferenced help files:"
+        diff /tmp/template-help-references.txt /tmp/help-files.txt | grep -e "^>"
