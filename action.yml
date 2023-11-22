@@ -90,22 +90,26 @@ runs:
         wget "https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/jslint4java/jslint4java-2.0.2-dist.zip"
         unzip jslint4java-2.0.2-dist.zip
         mv jslint4java-2.0.2/jslint4java-2.0.2.jar ~/bin/jslint4java.jar
+      shell: bash
 
     - name: Run XML validation
       run: |
-      cd ~/${{inputs.pkp-application}}
-      ./lib/pkp/tools/travis/validate-xml.sh
+        cd ~/${{inputs.pkp-application}}
+        ./lib/pkp/tools/travis/validate-xml.sh
+      shell: bash
 
     - name: Run Javascript/JSON validation
       run: |
-      cd ~/${{inputs.pkp-application}}
-      ./lib/pkp/tools/buildjs.sh -n
-      ./lib/pkp/tools/travis/validate-json.sh
+        cd ~/${{inputs.pkp-application}}
+        ./lib/pkp/tools/buildjs.sh -n
+        ./lib/pkp/tools/travis/validate-json.sh
+      shell: bash
 
     - name: Run linting
       run: |
         cd ~/${{inputs.pkp-application}}
         npm run lint
+      shell: bash
 
     - name: Run Documentation validation
       run: |
@@ -126,3 +130,4 @@ runs:
         cat docs/manual/en/SUMMARY.md | sed -n -e "s/.*(\([^)]\+\))/\1/p" | sort | uniq > /tmp/help-files.txt
         echo "Unreferenced help files:"
         diff /tmp/template-help-references.txt /tmp/help-files.txt | grep -e "^>"
+      shell: bash
