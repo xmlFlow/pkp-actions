@@ -79,7 +79,7 @@ runs:
       shell: bash
     
     - name: Create additional directories
-      run: mkdir -p ~/${{inputs.pkp-application}}/bin
+      run: mkdir -p ~/bin
       shell: bash
 
     - name: Install Validation tools
