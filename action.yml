@@ -93,14 +93,14 @@ runs:
 
       - name: Run XML validation
         run: |
-          cd ~/${{inputs.pkp-application}}
-          ./lib/pkp/tools/travis/validate-xml.sh
+        cd ~/${{inputs.pkp-application}}
+        ./lib/pkp/tools/travis/validate-xml.sh
 
       - name: Run Javascript/JSON validation
         run: |
-          cd ~/${{inputs.pkp-application}}
-          ./lib/pkp/tools/buildjs.sh -n
-          ./lib/pkp/tools/travis/validate-json.sh
+        cd ~/${{inputs.pkp-application}}
+        ./lib/pkp/tools/buildjs.sh -n
+        ./lib/pkp/tools/travis/validate-json.sh
 
       - name: Run linting
         run: |
