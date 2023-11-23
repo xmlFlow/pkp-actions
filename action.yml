@@ -3,6 +3,10 @@ description: 'PKP CI/CD Pipeline'
 inputs:
   pkp-application:
     required: true
+  pkp-repository: 
+    defalut : ${{ github.repository_owner }}
+  pkp-branch: 
+    defalut : [ '${{ github.head_ref || github.ref_name }}' ]
     
 outputs:
   random-number:
