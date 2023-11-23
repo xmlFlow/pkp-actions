@@ -7,8 +7,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - uses: xmlFlow/pkp-actions@v79
+      - uses: xmlFlow/pkp-actions@v80
         with:
           pkp-application: 'ojs'
-          pkp-repository: 'withanage'
-          pkp-branch: 'issue#9214'
+          
