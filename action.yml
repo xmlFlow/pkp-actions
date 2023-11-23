@@ -1,7 +1,8 @@
 name: 'PKP Github actions'
 description: 'PKP CI/CD Pipeline'
 inputs:
-  pkp-application: required: true
+  pkp-application:
+    required: true
     
 outputs:
   random-number:
