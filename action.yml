@@ -4,8 +4,8 @@ inputs:
   pkp-application:
     required: true
   pkp-repository: 
-    defalut : 
-  pkp-branch: ${GITHUB_REPOSITORY}}
+    defalut : ${GITHUB_REPOSITORY}}
+  pkp-branch: 
     defalut : ${GITHUB_REF_NAME}}
     
 outputs:
