@@ -4,7 +4,7 @@ inputs:
   pkp-application:
     required: true
   pkp-repository: 
-    defalut : [ '${{ github.head_ref || github.ref_name }}' ]
+    defalut : ojs
   pkp-branch: 
     defalut : ${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}
     
