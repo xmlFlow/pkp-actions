@@ -1,3 +1,4 @@
-- name: validate
-  uses: ./.github/validate/
-   
+ - name: test-action
+    uses: ./.github/test-action
+    with:
+      test_input: "test-string-value"
