@@ -37,6 +37,9 @@ env:
 runs:
   using: "composite"
   steps:
+    - name: 'test'
+      uses:  ${{inputs.pkp-application}}/${{inputs.pkp-application}}/validate
+
     - name: Install postgres server
       if: ${{matrix.dbs == 'pgsql'}}
       run: |
