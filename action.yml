@@ -1,4 +1,3 @@
 - name: validate
     uses: ./.github/validate
-    with:
-      test_input: "test-string-value"
+   
