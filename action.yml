@@ -4,9 +4,9 @@ inputs:
   pkp-application:
     required: true
   pkp-repository: 
-    defalut : ${{GITHUB_REPOSITORY}}
+    defalut : ${{env.GITHUB_REPOSITORY}}
   pkp-branch: 
-    defalut : ${{GITHUB_REF_NAME}}
+    defalut : ${{env.GITHUB_REF_NAME}}
     
 outputs:
   random-number:
