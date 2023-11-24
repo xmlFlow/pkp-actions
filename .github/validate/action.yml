@@ -7,7 +7,6 @@ inputs:
     required: true
   pkp-branch: 
      required: true
-     default: '${{ github.head_ref || github.ref_name }}'
     
 outputs:
   random-number:
