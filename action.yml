@@ -4,7 +4,7 @@ inputs:
   pkp-application:
     required: true
   pkp-repository: 
-    defalut : ${{env.GITHUB_REPOSITORY}}
+    defalut : ${{github.repository}}
   pkp-branch: 
     defalut : ${{env.GITHUB_REF_NAME}}
     
