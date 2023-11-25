@@ -118,7 +118,7 @@ runs:
     - name: Run Documentation validation
       run: |
         cd ~/${{inputs.pkp-application}}
-          # Look for help filenames referred to in templates and check that they all exist (in English)
+         # Look for help filenames referred to in templates and check that they all exist (in English)
           ERRORS=0
           for filename in `find . -name \*.tpl -exec sed -n -e "s/.*{help[^}]file=\"\([^\"#]\+\)[#\"].*/\1/p" "{}" ";"`; do
            if [ ! -f docs/manual/en/$filename.md ]; then
