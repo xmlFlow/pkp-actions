@@ -139,25 +139,25 @@ runs:
         mkdir -p $HOME/bin
       shell: bash
 
-    - name: Prepare tests
+      - name: Prepare Web  Server
       run: |
         cd ~/${{inputs.pkp-application}}
-        ./lib/pkp/tools/travis/prepare-webserver.sh
-        ./lib/pkp/tools/travis/prepare-tests.sh
-      env:
-        DBTYPE: ${{matrix.dbs == 'pgsql' && 'PostgreSQL' || 'MySQLi'}}
-        CYPRESS_DBTYPE: ${{matrix.dbs=='pgsql' && 'PostgreSQL' || 'MySQLi'}}
-      shell: bash
-
-    - name: Prepare Web  Server
-      run: |
-        cd ~/${{matrix.pkp-application}}
         sudo apt-get install socat
         sudo socat TCP-LISTEN:80,fork,reuseaddr TCP:localhost:8080 &
         # Run the PHP internal server on port 8080.
         php -S 127.0.0.1:8080 -t . >& access.log &
       shell: bash
 
+    - name: Prepare tests
+      run: |
+        cd ~/${{inputs.pkp-application}}
+        ./lib/pkp/tools/travis/prepare-tests.sh
+      env:
+        DBTYPE: ${{matrix.dbs == 'pgsql' && 'PostgreSQL' || 'MySQLi'}}
+        CYPRESS_DBTYPE: ${{matrix.dbs=='pgsql' && 'PostgreSQL' || 'MySQLi'}}
+      shell: bash
+
+  
     - name: Run cypress data tests
       run: |
         cd ~/${{inputs.pkp-application}}
