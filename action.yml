@@ -136,7 +136,7 @@ runs:
 
     - name: Create additional directories
       run: |
-        mkdir -p $HOME/bin
+        mkdir -p ~${{inputs.pkp-application}}/bin
       shell: bash
 
     - name: Prepare Web  Server
