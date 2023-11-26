@@ -22,9 +22,9 @@ env:
   CYPRESS_DBPASSWORD: ojs-ci
   CYPRESS_DBHOST: 127.0.0.1
   CYPRESS_FILESDIR: files
-  #TEST: ${{matrix.dbs}}
-  DBTYPE: ${env.db-type == 'pgsql' && 'PostgreSQL' || 'MySQLi'}}
-  CYPRESS_DBTYPE: ${{matrix.dbs=='pgsql' && 'PostgreSQL' || 'MySQLi'}}
+  #TEST: ${{inputs.db-type}}
+  DBTYPE: ${inputs.db-type == 'pgsql' && 'PostgreSQL' || 'MySQLi'}}
+  CYPRESS_DBTYPE: ${{inputs.db-type=='pgsql' && 'PostgreSQL' || 'MySQLi'}}
       
 
 
@@ -32,7 +32,7 @@ runs:
   using: "composite"
   steps:
     - name: Install postgres server
-      if: ${{matrix.dbs == 'pgsql'}}
+      if: ${{inputs.db-type == 'pgsql'}}
       run: |
         sudo apt install postgresql postgresql-contrib
         sudo dpkg-reconfigure locales
@@ -40,7 +40,7 @@ runs:
       shell: bash
 
     - name: Install  mysql server
-      if: ${{matrix.dbs == 'mysql'}}
+      if: ${{inputs.db-type == 'mysql'}}
       run: |
         sudo apt install -q -y mysql-server mysql-client
         sudo service mysql start
@@ -48,7 +48,7 @@ runs:
       shell: bash
 
     - name: Install mariadb  server
-      if: ${{matrix.dbs == 'mariadb'}}
+      if: ${{inputs.db-type == 'mariadb'}}
       uses: ankane/setup-mariadb@v1
       with:
         mariadb-version: "10.11"
@@ -56,7 +56,7 @@ runs:
     - name: Setup PHP, extensions and composer
       uses: shivammathur/setup-php@v2
       with:
-        php-version: ${{matrix.php-versions}}
+        php-version: ${{inputs.php-version}}
         extensions: bcmath, bz2, common, cli, curl, fpm, gd, intl, mbstring, mysql,mysqlnd, mysqli, opcache, pdo_mysql, pgsql, json,soap, xml, zip
         coverage: xdebug
       env:
@@ -165,7 +165,7 @@ runs:
         npx cypress run --headless --browser chrome --config '{"specPattern":["lib/pkp/cypress/tests/integration/**/*.cy.js"]}'
       shell: bash
 
-    - name: Run cypress ${{matrix.pkp-application}} integration tests
+    - name: Run cypress ${{inputs.pkp-application}} integration tests
       run: |
         cd ~/${{inputs.pkp-application}}
         if [ -d "cypress/tests/integration" ]; then
@@ -173,7 +173,7 @@ runs:
         fi
       shell: bash
 
-    - name: Run ${{matrix.pkp-application}} unit tests
+    - name: Run ${{inputs.pkp-application}} unit tests
       run: |
         cd ~/${{inputs.pkp-application}}
         ./lib/pkp/tools/travis/dump-database.sh
