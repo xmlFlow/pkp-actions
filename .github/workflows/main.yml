@@ -13,8 +13,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - uses: xmlFlow/pkp-actions@v135
+      - uses: xmlFlow/pkp-actions@v136
         with:
           pkp-application: 'ojs'
           pkp-repository: 'withanage'
           pkp-branch: 'issue#9214'
+          php-version:  ${{matrix.php-versions}}
+          db-type: ${{matrix.dbs}}
