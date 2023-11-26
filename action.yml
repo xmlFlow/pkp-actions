@@ -23,7 +23,7 @@ env:
   CYPRESS_DBHOST: 127.0.0.1
   CYPRESS_FILESDIR: files
   #TEST: ${{inputs.db-type}}
-  DBTYPE: ${inputs.db-type == 'pgsql' && 'PostgreSQL' || 'MySQLi'}}
+  DBTYPE: ${{inputs.db-type == 'pgsql' && 'PostgreSQL' || 'MySQLi'}}
   CYPRESS_DBTYPE: ${{inputs.db-type=='pgsql' && 'PostgreSQL' || 'MySQLi'}}
       
 
