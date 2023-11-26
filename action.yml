@@ -8,16 +8,11 @@ inputs:
   pkp-branch: 
      required: true
      
-    
-outputs:
-  random-number:
-    description: "Random number"
-    value: ${{ steps.random-number-generator.outputs.random-number }}
 strategy:
   fail-fast: false
 matrix:
   php-versions: [ '8.1','8.2' ]
-  dbs: [ 'pgsql']
+  dbs: [ 'pgsql', 'mysql','mariadb']
 env:
   DBUSERNAME: ojs-ci
   DBPASSWORD: ojs-ci
@@ -32,6 +27,9 @@ env:
   CYPRESS_DBPASSWORD: ojs-ci
   CYPRESS_DBHOST: 127.0.0.1
   CYPRESS_FILESDIR: files
+  DBTYPE: ${{matrix.dbs == 'pgsql' && 'PostgreSQL' || 'MySQLi'}}
+  CYPRESS_DBTYPE: ${{matrix.dbs=='pgsql' && 'PostgreSQL' || 'MySQLi'}}
+  TEST: ${{matrix.dbs}}
 
 
 runs:
@@ -136,5 +134,62 @@ runs:
         echo "Unreferenced help files:"
         diff /tmp/template-help-references.txt /tmp/help-files.txt | grep -e "^>"
         set -e
+      shell: bash
 
+    - name: Create additional directories
+      run: |
+        mkdir -p $HOME/bin
+      shell: bash
+
+    - name: Prepare tests
+      run: |
+        cd ~/${{inputs.pkp-application}}
+        ./lib/pkp/tools/travis/prepare-webserver.sh
+        ./lib/pkp/tools/travis/prepare-tests.sh
+      shell: bash
+
+    - name: Run PHP web server
+      run: |
+        php -S 127.0.0.1:8000 -t . >& access.log &
+      shell: bash
+
+    - name: Run cypress data tests
+      run: |
+        cd ~/${{inputs.pkp-application}}
+        npx cypress run --headless --browser chrome --config '{"specPattern":["cypress/tests/data/**/*.cy.js"]}'
+      shell: bash
+
+    - name: Run cypress pkp-lib integration tests
+      run: |
+        cd ~/${{inputs.pkp-application}}
+        npx cypress run --headless --browser chrome --config '{"specPattern":["lib/pkp/cypress/tests/integration/**/*.cy.js"]}'
+      shell: bash
+
+    - name: Run cypress ${{matrix.pkp-application}} integration tests
+      run: |
+        cd ~/${{inputs.pkp-application}}
+        if [ -d "cypress/tests/integration" ]; then
+          npx cypress run --headless --browser chrome --config '{"specPattern":["cypress/tests/integration/**/*.cy.js"]}'
+        fi
+      shell: bash
+
+    - name: Run ${{matrix.pkp-application}} unit tests
+      run: |
+        cd ~/${{inputs.pkp-application}}
+        ./lib/pkp/tools/travis/dump-database.sh
+        ./lib/pkp/tools/runAllTests.sh -CcPpdR
+      shell: bash
+
+    - uses: actions/upload-artifact@v3
+      with:
+        name: Create cypess screenshots as artifacts
+        path: $HOME/${{ matrix.pkp-application}}/cypress/screenshots
+        if-no-files-found: ignore
+      shell: bash  
+
+    - name: Show web access log
+      if: ${{ failure() }}
+      run: |
+        cd ~/${{ matrix.pkp-application }}
+        cat access.log
       shell: bash
