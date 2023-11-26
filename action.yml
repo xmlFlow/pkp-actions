@@ -27,9 +27,7 @@ env:
   CYPRESS_DBPASSWORD: ojs-ci
   CYPRESS_DBHOST: 127.0.0.1
   CYPRESS_FILESDIR: files
-  DBTYPE: ${{matrix.dbs == 'pgsql' && 'PostgreSQL' || 'MySQLi'}}
-  CYPRESS_DBTYPE: ${{matrix.dbs=='pgsql' && 'PostgreSQL' || 'MySQLi'}}
-  TEST: ${{matrix.dbs}}
+  #TEST: ${{matrix.dbs}}
 
 
 runs:
@@ -146,7 +144,10 @@ runs:
         cd ~/${{inputs.pkp-application}}
         ./lib/pkp/tools/travis/prepare-webserver.sh
         ./lib/pkp/tools/travis/prepare-tests.sh
-      shell: bash
+      env:
+        DBTYPE: ${{matrix.dbs == 'pgsql' && 'PostgreSQL' || 'MySQLi'}}
+        CYPRESS_DBTYPE: ${{matrix.dbs=='pgsql' && 'PostgreSQL' || 'MySQLi'}}
+        shell: bash
 
     - name: Run PHP web server
       run: |
@@ -178,14 +179,13 @@ runs:
         cd ~/${{inputs.pkp-application}}
         ./lib/pkp/tools/travis/dump-database.sh
         ./lib/pkp/tools/runAllTests.sh -CcPpdR
-      shell: bash
+        shell: bash
 
     - uses: actions/upload-artifact@v3
       with:
         name: Create cypess screenshots as artifacts
         path: $HOME/${{ matrix.pkp-application}}/cypress/screenshots
         if-no-files-found: ignore
-      shell: bash  
 
     - name: Show web access log
       if: ${{ failure() }}
