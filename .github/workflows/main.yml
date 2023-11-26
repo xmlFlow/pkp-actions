@@ -3,11 +3,11 @@ on: [push]
 jobs:
   validate:
     runs-on: ubuntu-latest
-    name: Validation
+    name: pkp-integration
     steps:
       - uses: actions/checkout@v4
       
-      - uses: xmlFlow/pkp-actions@v131
+      - uses: xmlFlow/pkp-actions@v132
         with:
           pkp-application: 'ojs'
           pkp-repository: 'withanage'
