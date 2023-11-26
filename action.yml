@@ -7,6 +7,10 @@ inputs:
     required: true
   pkp-branch: 
      required: true
+  php-version: 
+     required: true
+  db-type: 
+     required: true
 
 env:
   DBUSERNAME: ojs-ci
