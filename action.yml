@@ -139,7 +139,7 @@ runs:
         mkdir -p $HOME/bin
       shell: bash
 
-      - name: Prepare Web  Server
+    - name: Prepare Web  Server
       run: |
         cd ~/${{inputs.pkp-application}}
         sudo apt-get install socat
@@ -189,12 +189,12 @@ runs:
       if: failure()
       with:
         name: Create cypess screenshots as artifacts
-        path: $HOME/${{ matrix.pkp-application}}/cypress/screenshots
+        path: ~/${{ inputs.pkp-application}}/cypress/screenshots
         if-no-files-found: ignore
 
     - name: Show web access log
       if: ${{ failure() }}
       run: |
-        cd ~/${{ matrix.pkp-application }}
+        cd ~/${{ inputs.pkp-application }}
         cat access.log
       shell: bash
