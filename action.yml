@@ -7,12 +7,7 @@ inputs:
     required: true
   pkp-branch: 
      required: true
-     
-strategy:
-  fail-fast: false
-matrix:
-  php-versions: [ '8.1','8.2' ]
-  dbs: [ 'pgsql', 'mysql','mariadb']
+
 env:
   DBUSERNAME: ojs-ci
   DBPASSWORD: ojs-ci
@@ -27,7 +22,10 @@ env:
   CYPRESS_DBPASSWORD: ojs-ci
   CYPRESS_DBHOST: 127.0.0.1
   CYPRESS_FILESDIR: files
-  #TEST: ${{matrix.dbs}}
+  TEST: ${{matrix.dbs}}
+  DBTYPE: ${{matrix.dbs == 'pgsql' && 'PostgreSQL' || 'MySQLi'}}
+  CYPRESS_DBTYPE: ${{matrix.dbs=='pgsql' && 'PostgreSQL' || 'MySQLi'}}
+      
 
 
 runs:
@@ -152,9 +150,6 @@ runs:
       run: |
         cd ~/${{inputs.pkp-application}}
         ./lib/pkp/tools/travis/prepare-tests.sh
-      env:
-        DBTYPE: ${{matrix.dbs == 'pgsql' && 'PostgreSQL' || 'MySQLi'}}
-        CYPRESS_DBTYPE: ${{matrix.dbs=='pgsql' && 'PostgreSQL' || 'MySQLi'}}
       shell: bash
 
   
