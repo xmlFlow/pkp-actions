@@ -149,9 +149,13 @@ runs:
         CYPRESS_DBTYPE: ${{matrix.dbs=='pgsql' && 'PostgreSQL' || 'MySQLi'}}
       shell: bash
 
-    - name: Run PHP web server
+     - name: Prepare Web  Server
       run: |
-        php -S 127.0.0.1:8000 -t . >& access.log &
+        cd ~/${{matrix.pkp-application}}
+        sudo apt-get install socat
+        sudo socat TCP-LISTEN:80,fork,reuseaddr TCP:localhost:8080 &
+        # Run the PHP internal server on port 8080.
+        php -S 127.0.0.1:8080 -t . >& access.log &
       shell: bash
 
     - name: Run cypress data tests
