@@ -186,11 +186,11 @@ runs:
       shell: bash
 
     - uses: actions/upload-artifact@v3
-        if: failure()
-        with:
-          name: Create cypess screenshots as artifacts
-          path: $HOME/${{ matrix.pkp-application}}/cypress/screenshots
-          if-no-files-found: ignore
+      if: failure()
+      with:
+        name: Create cypess screenshots as artifacts
+        path: $HOME/${{ matrix.pkp-application}}/cypress/screenshots
+        if-no-files-found: ignore
 
     - name: Show web access log
       if: ${{ failure() }}
