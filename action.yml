@@ -31,7 +31,6 @@ env:
 
 
 runs:
-  using: "composite"
   steps:
     - name: Install postgres server
       if: ${{matrix.dbs == 'pgsql'}}
