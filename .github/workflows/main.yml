@@ -1,0 +1,21 @@
+on: [push, pull_request]
+name: validate
+jobs:
+  upgrade:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        pkp-application: ['ojs','omp','ops']
+        php-versions: [ '8.1' ,'8.2']
+      
+    name: validate
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: withanage/validate-action@v1
+        with:
+          pkp-application:  ${{matrix.pkp-application}}
+          pkp-repository: 'pkp'
+          pkp-branch: 'main' 
+  
