@@ -8,10 +8,10 @@ jobs:
       matrix:
         include:
         - php-version: 8.1
-          database: pgsql
+          database: [pgsql,mariadb, mysql]
     name: validate
     steps:
       - name: test
         run: |
-          echo ${{ toJSON(matrix) }} 
+          echo ${{ toJSON(matrix.database) }} 
       
