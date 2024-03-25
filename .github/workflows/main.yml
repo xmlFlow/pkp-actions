@@ -7,8 +7,12 @@ jobs:
       fail-fast: false
       matrix:
         include:
-        - php-version: 8.1
-          database: [pgsql,mariadb, mysql]
+          - php-version: 8.1
+            database: pgsql
+          - php-version: 8.1
+            database: mariadb
+          - php-version: 8.1
+            database: mysql
     name: validate
     steps:
       - name: test
