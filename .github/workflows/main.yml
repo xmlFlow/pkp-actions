@@ -11,6 +11,7 @@ jobs:
           database: pgsql
     name: validate
     steps:
-      run: |
-       echo ${{ toJSON(matrix.database) }} 
+      - name: test
+        run: |
+        echo ${{ toJSON(matrix.database) }} 
       
