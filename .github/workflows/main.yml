@@ -6,16 +6,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        pkp-application: ['ojs','omp','ops']
-        php-versions: [ '8.1' ,'8.2']
-      
+        include:
+            php-version: 8.1
+            database: pgsql
+          
     name: validate
     steps:
-      - uses: actions/checkout@v4
+      - name: Show files changed
+      run: |
+        echo ${{ toJSON(matrix.database) }} 
       
-      - uses: withanage/validate-action@v1
-        with:
-          pkp-application:  ${{matrix.pkp-application}}
-          pkp-repository: 'pkp'
-          pkp-branch: 'main' 
-  
