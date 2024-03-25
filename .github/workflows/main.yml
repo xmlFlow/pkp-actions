@@ -1,18 +1,16 @@
-on: [push, pull_request]
+on: [push]
 name: validate
 jobs:
-  upgrade:
+  mx:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         include:
-            php-version: 8.1
-            database: pgsql
-          
+        - php-version: 8.1
+          database: pgsql
     name: validate
     steps:
-      - name: Show files changed
       run: |
-        echo ${{ toJSON(matrix.database) }} 
+       echo ${{ toJSON(matrix.database) }} 
       
