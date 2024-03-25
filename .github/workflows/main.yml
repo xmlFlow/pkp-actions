@@ -9,13 +9,26 @@ jobs:
         include:
           - php-version: 8.1
             database: pgsql
+            SAVE_BUILD: 1
           - php-version: 8.1
             database: mariadb
+            SAVE_BUILD: 1
           - php-version: 8.1
             database: mysql
+          - php-version: 8.2
+            database: mysql  
+          - php-version: 8.2
+            database: pgsql
+          - php-version: 8.2
+            database: pgsql  
+        
+            
     name: validate
     steps:
       - name: test
         run: |
           echo ${{ toJSON(matrix.database) }} 
-      
+        env:
+          upgrade_test: 'stable-3_3_0,stable-3_4_0'
+          
+       
